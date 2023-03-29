@@ -103,16 +103,23 @@ def video2comix(args):
     print('video open status:', vc.isOpened())
 
     # 获取视频宽度
-    frame_width = int(cv2.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
     # 获取视频高度
-    frame_height = int(cv2.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    frame_height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
     print('video w,h:', str(frame_width), ',', str(frame_height))
+
+    #total frames num
+    numFrames = int(vc.get(cv2.CAP_PROP_FRAME_COUNT))
+    print('video total Frames num:', str(numFrames))
+
     # fps
     fps = vc.get(cv2.CAP_PROP_FPS)
     print('video fps:', str(fps))
+
     # target coim fps
     fps_flow = args.fps  # fps / 2
     print('video fps:', str(fps_flow))
+
 
     # MPEG can not play in web
     fourcc = cv2.VideoWriter_fourcc(*"H264")
@@ -128,6 +135,10 @@ def video2comix(args):
     while vc.isOpened():
         vc.set(cv2.CAP_PROP_POS_FRAMES, n)  # 截取指定帧数
         n = n + step #跳帧
+        if n >= numFrames:
+            print('video2comix - read frame is over')
+            break
+
         su, frame = vc.read()
         if frame is None:
             print('video2comix - read frame is none')
