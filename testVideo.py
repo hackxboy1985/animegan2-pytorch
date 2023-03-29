@@ -102,9 +102,9 @@ def video2comix(args):
     vc = cv2.VideoCapture(inputmp4)
     print('video open status:', vc.isOpened())
 
-    # 获取视频宽度
+    # width
     frame_width = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH))
-    # 获取视频高度
+    # height
     frame_height = int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
     print('video w,h:', str(frame_width), ',', str(frame_height))
 
